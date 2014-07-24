@@ -1,87 +1,164 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-		<title>Factory Muffin</title>
+    <title>Factory Muffin</title>
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="css/reveal.min.css">
-		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
 
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<script>
-			if( window.location.search.match( /print-pdf/gi ) ) {
-				var link = document.createElement( 'link' );
-				link.rel = 'stylesheet';
-				link.type = 'text/css';
-				link.href = 'css/print/pdf.css';
-				document.getElementsByTagName( 'head' )[0].appendChild( link );
-			}
-		</script>
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
 
-	<body>
+  <body>
 
-		<div class="reveal">
+    <div class="reveal">
 
-			<div class="slides">
-				<section>
-					<h1>Factory Muffin</h1>
-					<h4>Enable the rapid creation of objects for the purpose of testing.</h4>
-				</section>
+      <div class="slides">
+        <section>
+          <h1>Factory Muffin</h1>
+          <h4>Enable the rapid creation of objects for the purpose of testing.</h4>
+        </section>
 
-				<section>
-					<h2>What is it?</h2>
-					<code>hi</code>
-					<p>
-						Factory Muffin allows us to create objects very easily, providing us with data generated from the Faker library.
-					</p>
-				</section>
+        <section>
+          <h1>What is it?</h1>
+          <p>
+            Factory Muffin allows us to create objects easily, and consistantly when we are writing tests. These objects will automatically be populated with the data types we specify using the Faker library.
+          </p>
+        </section>
 
-				<section>
-					<h1>Questions?</h1>
-				</section>
+        <section>
+          <h3>Definitions</h3>
+          <p>
+            Before we can use Factory Muffin in our tests, we need to define the data we want to be generated. To do this, we create "defintions" in the following way:
+          </p>
 
-			</div>
+<pre>
+<code>FactoryMuffin::define('Model_Network', array(
+  'network_name' => 'string',
+  'network_description' => 'text',
+  'default_campaign_id' => 'factory|Model_Campaign'
+));
 
-		</div>
+FactoryMuffin::define('Model_AUser', array(
+  'user_name' => 'string',
+  'email' => 'email',
+  'network_id' => 'factory|Model_Network'
+));
+</code></pre>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.min.js"></script>
+        </section>
 
-		<script>
+        <section>
+          <h3>Use in tests</h3>
+          <p>
+            Now that our defintions have been created, we can go ahead and use these to create objects in our tests.
+          </p>
 
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
+<pre>
+<code>function testNetworkHasDescription()
+{
+  $user = FactoryMuffin::instance('Model_AUser');
+  $this->assertNotEmpty($user->network->network_description);
+}
+</code></pre>
 
-				theme: Reveal.getQueryHash().theme,
-				transition: Reveal.getQueryHash().transition || 'default',
+        <p style="font-size:20px">
+          This will create a Model_AUser object, along with the Model_Network object attached to the user. Because we used ->instance() instead of ::create(), this will not be saved to the DB. (->save() will not be called.)
+        </p>
 
-				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-				]
-			});
+        </section>
 
-		</script>
+        <section>
+          <h3>Use in tests 2</h3>
+          <p>
+            You can use ::create(), and this will create the object instance, and call ->save() on it. This will save to the DB so we can persist it when needed.
+          </p>
 
-	</body>
+<pre>
+<code>function testNetworkHasDescription()
+{
+  $user = FactoryMuffin::create('Model_AUser');
+  $this->assertNotEmpty($user->network->network_description);
+}
+</code></pre>
+
+        </section>
+
+        <section>
+          <h3>Overwriting values</h3>
+          <p>
+            When calling create/instance, you are able to overwrite values set in the defintions file.
+          </p>
+
+<pre>
+<code>function testOverwritingNetwork()
+{
+  $user = FactoryMuffin::create('Model_AUser', [
+    'network_id' => null
+  ]);
+
+  $this->assertNull($user->network);
+}
+</code></pre>
+
+
+        </section>
+
+        <section>
+          <h1>Questions?</h1>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme,
+        transition: Reveal.getQueryHash().transition || 'default',
+
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
 </html>
