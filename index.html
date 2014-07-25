@@ -203,18 +203,15 @@
 <code>function testFactoryInception()
 {
   $user = FactoryMuffin::create('User');
+  $profile = Profile::find($user->profile_id);
 
   /**
-   * User Object
+   * Profile Object
    * (
-   *   [username] => mihsanredk
-   *   [password] => sbwlaijkhb
-   *   [email] => brown.helga@pfannerstillhuel.org
-   *   [address] => 187 Grimes Loaf
-   *   [postcode] => 21455
-   *   [profile_id] => 8
+   *   [profile] => Aut optio omnis quia voluptatem.
    * )
    */
+
 }
 </code></pre>
 
