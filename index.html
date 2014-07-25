@@ -36,26 +36,26 @@
     <div class="reveal">
 
       <div class="slides">
-        <section>
+        <section id="intro">
           <h1>Factory Muffin</h1>
           <h4>Enable the rapid creation of objects for the purpose of testing.</h4>
         </section>
 
-        <section>
+        <section id="factory-muffin">
           <h1>What is Factory Muffin?</h1>
           <p>
             Factory Muffin allows us to create objects easily, and consistantly when writing tests. These objects will automatically be populated with the data types we specify.
           </p>
         </section>
 
-        <section>
+        <section id="data-source">
           <h1>Where does the data come from?</h1>
           <p>
             Factory Muffin uses a popular library called Faker to generate random data such as strings, email addresses, phone numbers, credit card numbers and more.
           </p>
         </section>
 
-        <section>
+        <section id="faker">
           <h1>What is Faker?</h1>
 
           <p>
@@ -63,11 +63,11 @@
           </p>
         </section>
 
-        <section>
+        <section id="how-to-use">
           <h1>How do I use Factory Muffin?</h1>
         </section>
 
-        <section>
+        <section id="defintions">
           <h3>Definitions</h3>
           <p>
             Before we can use Factory Muffin in our tests, we need to define the data we want to be generated. To do this, we create "defintions" in the following way:
@@ -87,7 +87,7 @@
 
         </section>
 
-        <section>
+        <section id="using-factories-in-tests">
           <h3>Using Factories in Tests</h3>
           <p>
             Now that our defintions have been created, we can go ahead and use these to create objects in our tests.
@@ -116,8 +116,8 @@
 
         </section>
 
-        <section>
-          <h3>Use in tests 2</h3>
+        <section id="save-to-db">
+          <h3>Saving the Factory to the DB</h3>
           <p>
             Factory Muffin can attempt to persist these objects to the DB.
           </p>
@@ -135,8 +135,8 @@
 
         </section>
 
-        <section>
-          <h3>Overwriting values</h3>
+        <section id="overwriting-values">
+          <h3>Overwriting Values</h3>
           <p>
             When calling create/instance, you are able to overwrite values set in the defintions file.
           </p>
@@ -163,7 +163,7 @@
 
         </section>
 
-        <section>
+        <section id="factory-inception">
           <h3>Factory Inception</h3>
           <p>
             You can have a factory create a factory within it's self, and capture the ID to store in the DB
@@ -193,7 +193,7 @@
 
         </section>
 
-        <section>
+        <section id="using-factory-inception">
           <h3>Using Factory Inception</h3>
           <p>
             By creating a User factory, we will now go ahead and create the Profile factory, and return it's ID automatically
@@ -220,8 +220,8 @@
 
         </section>
 
-        <section>
-          <h3>Calling Static Methods</h3>
+        <section id="defining-static-methods">
+          <h3>Defining Static Methods</h3>
           <p>
             You can have Factory Muffin call static methods while creating the data sets.
           </p>
@@ -252,8 +252,8 @@
 
         </section>
 
-        <section>
-          <h3>Calling Static Methods 2</h3>
+        <section id="using-static-methods">
+          <h3>Using Static Methods</h3>
           <p>
             And now, when we create the Factory we are provided with a random hash too
           </p>
@@ -275,7 +275,7 @@
 
         </section>
 
-        <section>
+        <section id="questions">
           <h1>Questions?</h1>
         </section>
 
