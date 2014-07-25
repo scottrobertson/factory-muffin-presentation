@@ -70,15 +70,18 @@
             There are hundreds of Faker Formatters. These are used to return the random data needed to populate the Factory object. Some examples are:
           </p>
 
-          <ul style="font-size:18px">
-            <li>->catchPhrase</li>
-            <li>->tld</li>
-            <li>->ipv4</li>
-            <li>->userAgent</li>
-            <li>->creditCardNumber</li>
-            <li>->imageUrl()</li>
-            <li>->titleMale</li>
-          </ul>
+<pre>
+<code>echo $faker->catchPhrase; // Monitored regional contingency
+echo $faker->tld; // .com
+echo $faker->ipv4; // 109.133.32.252
+echo $faker->userAgent; // Mozilla/5.0 (Windows CE) AppleWebKit/5350 (KHTML, like Gecko) Chrome/13.0.888.0 Safari/5350
+echo $faker->imageUrl(640, 480); // http://lorempixel.com/640/480/
+echo $faker->titleMale; // Mr.
+echo $faker->creditCardDetails; // array('MasterCard', '4485480221084675', 'Aleksander Nowak', '04/13')
+echo $faker->hexcolor; // #fa3cc2
+echo $faker->mimeType; // video/x-msvideo
+echo $faker->uuid; // 7e57d004-2b97-0e7a-b45f-5387367791cd</code>
+</pre>
 
           <hr />
           <p>
@@ -220,7 +223,7 @@
         <section id="using-factory-inception">
           <h3>Using Factory Inception</h3>
           <p>
-            By creating a User factory, we will now go ahead and create the Profile factory, and return it's ID automatically
+            By creating a User factory, we will now go ahead and create the Profile factory, and return its ID automatically
           </p>
 
 <pre>
