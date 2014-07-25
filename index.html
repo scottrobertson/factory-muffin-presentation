@@ -202,6 +202,61 @@
         </section>
 
         <section>
+          <h3>Calling Static Methods</h3>
+          <p>
+            You can have Factory Muffin call static methods while creating the data sets.
+          </p>
+
+<pre>
+<code>FactoryMuffin::define(
+  'User',
+  array(
+    'username' => 'string',
+    'hash' => 'call|makeHash|string'
+  )
+);
+</code></pre>
+
+<pre>
+<code>class User
+{
+  public static function makeHash($seed)
+  {
+    return hash('sha256', $seed);
+  }
+}
+</code></pre>
+
+        <p style="font-size:20px">
+          Notice that we are passing a randomly generated string into ::makeHash()
+        </p>
+
+        </section>
+
+        <section>
+          <h3>Calling Static Methods 2</h3>
+          <p>
+            And now, when we create the Factory we are provided with a random hash too
+          </p>
+
+<pre>
+<code>function testFactoryInception()
+{
+  $user = FactoryMuffin::create('User');
+
+  /**
+   * User Object
+   *(
+   *  [username] => nxqgclrhgk
+   *  [hash] => d7e58c93348905ca451ad44c6b22407444e19d32fc59d597d863373196341bfc
+   * )
+   */
+}
+</code></pre>
+
+        </section>
+
+        <section>
           <h1>Questions?</h1>
         </section>
 
