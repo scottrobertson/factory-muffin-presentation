@@ -44,7 +44,7 @@
         <section>
           <h1>What is it?</h1>
           <p>
-            Factory Muffin allows us to create objects easily, and consistantly when we are writing tests. These objects will automatically be populated with the data types we specify using the Faker library.
+            Factory Muffin allows us to create objects easily, and consistantly when writing tests. These objects will automatically be populated with the data types we specify.
           </p>
         </section>
 
@@ -55,17 +55,15 @@
           </p>
 
 <pre>
-<code>FactoryMuffin::define('Model_Network', array(
-  'network_name' => 'string',
-  'network_description' => 'text',
-  'default_campaign_id' => 'factory|Model_Campaign'
-));
-
-FactoryMuffin::define('Model_AUser', array(
-  'user_name' => 'string',
-  'email' => 'email',
-  'network_id' => 'factory|Model_Network'
-));
+<code>FactoryMuffin::define(
+  'User',
+  array(
+    'username' => 'string',
+    'password' => 'string',
+    'email'    => 'email',
+    'address'  => 'streetAddress',
+  )
+);
 </code></pre>
 
         </section>
@@ -79,13 +77,22 @@ FactoryMuffin::define('Model_AUser', array(
 <pre>
 <code>function testNetworkHasDescription()
 {
-  $user = FactoryMuffin::instance('Model_AUser');
-  $this->assertNotEmpty($user->network->network_description);
+  $user = FactoryMuffin::instance('User');
+
+  /**
+   * User Object
+   * (
+   *   [username] => qdfaaapozu
+   *   [password] => ipbwhlvvzq
+   *   [email] => hagenes.bo@mayert.com
+   *   [address] => 6654 Howe Point
+   * )
+   */
 }
 </code></pre>
 
         <p style="font-size:20px">
-          This will create a Model_AUser object, along with the Model_Network object attached to the user. Because we used ->instance() instead of ::create(), this will not be saved to the DB. (->save() will not be called.)
+          Because we are calling ::instance(), FactoryMuffin will not try and persist this to the DB.
         </p>
 
         </section>
@@ -93,16 +100,19 @@ FactoryMuffin::define('Model_AUser', array(
         <section>
           <h3>Use in tests 2</h3>
           <p>
-            You can use ::create(), and this will create the object instance, and call ->save() on it. This will save to the DB so we can persist it when needed.
+            Factory Muffin can attempt to persist these objects to the DB.
           </p>
 
 <pre>
 <code>function testNetworkHasDescription()
 {
-  $user = FactoryMuffin::create('Model_AUser');
-  $this->assertNotEmpty($user->network->network_description);
+  $user = FactoryMuffin::create('User');
 }
 </code></pre>
+
+          <p style="font-size:20px">
+            You do this by using ::create(). We do this by calling ->save() on the object after creating it.
+          </p>
 
         </section>
 
@@ -115,14 +125,79 @@ FactoryMuffin::define('Model_AUser', array(
 <pre>
 <code>function testOverwritingNetwork()
 {
-  $user = FactoryMuffin::create('Model_AUser', [
-    'network_id' => null
+  $user = FactoryMuffin::instance('User', [
+    'username' => 'scott'
   ]);
 
-  $this->assertNull($user->network);
+  /**
+   * User Object
+   * (
+   *   [username] => scott
+   *   [password] => mhygetwsfj
+   *   [email] => theodore61@wisoky.biz
+   *   [address] => 7091 Luis Row
+   * )
+   */
 }
 </code></pre>
 
+
+        </section>
+
+        <section>
+          <h3>Factory Inception</h3>
+          <p>
+            You can have a factory create a factory within it's self, and capture the ID to store in the DB
+          </p>
+
+<pre>
+<code>FactoryMuffin::define(
+  'Profile',
+  array(
+    'profile'  => 'text',
+  )
+);
+</code></pre>
+
+<pre>
+<code>FactoryMuffin::define(
+  'User',
+  array(
+    'username' => 'string',
+    'password' => 'string',
+    'email'    => 'email',
+    'address'  => 'streetAddress',
+    'profile_id'  => 'factory|Profile'
+  )
+);
+</code></pre>
+
+        </section>
+
+        <section>
+          <h3>Using Factory Inception</h3>
+          <p>
+            By creating a User factory, we will now go ahead and create the Profile factory, and return it's ID automatically
+          </p>
+
+<pre>
+<code>function testFactoryInception()
+{
+  $user = FactoryMuffin::create('User');
+
+  /**
+   * User Object
+   * (
+   *   [username] => mihsanredk
+   *   [password] => sbwlaijkhb
+   *   [email] => brown.helga@pfannerstillhuel.org
+   *   [address] => 187 Grimes Loaf
+   *   [postcode] => 21455
+   *   [profile_id] => 8
+   * )
+   */
+}
+</code></pre>
 
         </section>
 
