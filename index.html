@@ -94,10 +94,10 @@ echo $faker->uuid; // 7e57d004-2b97-0e7a-b45f-5387367791cd</code>
           <h1>How do I use Factory Muffin?</h1>
         </section>
 
-        <section id="definitions">
-          <h3>Definitions</h3>
+        <section id="factories">
+          <h3>Factories</h3>
           <p>
-            Before we can use Factory Muffin in our tests, we need to define the data we want to be generated. To do this, we create "definitions" in the following way:
+            Before we can use Factory Muffin in our tests, we need to define the data we want to be generated. To do this, we create "factories" in the following way:
           </p>
 
 <pre>
@@ -111,6 +111,20 @@ echo $faker->uuid; // 7e57d004-2b97-0e7a-b45f-5387367791cd</code>
   )
 );
 </code></pre>
+
+        </section>
+
+        <section id="including-factories">
+          <h3>Including Factories</h3>
+          <p>
+            You must tell FactoryMuffin to load these factories
+          </p>
+
+<pre>
+<code>public static function setupBeforeClass()
+{
+  FactoryMuffin::loadFactories(__DIR__ . '/factories');
+}</code></pre>
 
         </section>
 
