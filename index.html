@@ -299,6 +299,25 @@ echo $faker->uuid; // 7e57d004-2b97-0e7a-b45f-5387367791cd</code>
 
         </section>
 
+        <section id="cleaning-up">
+          <h3>Cleaning Up</h3>
+          <p>
+            All objects that are saved to the DB are tracked. You can delete these in one go
+          </p>
+
+<pre>
+<code>function tearDownAfterClass()
+{
+  FactoryMuffin::setDeleteMethod('delete');
+  FactoryMuffin::deleteSaved();
+}
+</code></pre>
+
+          <p style="font-size:20px">
+            This will loop over all of the objects and call ->delete() on them.
+          </p>
+
+        </section>
         <section id="questions">
           <h3>Questions?</h3>
         </section>
