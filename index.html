@@ -299,10 +299,29 @@ echo $faker->uuid; // 7e57d004-2b97-0e7a-b45f-5387367791cd</code>
 
         </section>
 
+        <section id="tracked-objects">
+          <h3>Tracked Objects</h3>
+          <p>
+            All objects that are saved to the DB are tracked.
+          </p>
+
+<pre>
+<code>function tearDownAfterClass()
+{
+  $objects = FactoryMuffin::saved();
+}
+</code></pre>
+
+          <p style="font-size:20px">
+            This will return an array of all saved objects
+          </p>
+
+        </section>
+
         <section id="cleaning-up">
           <h3>Cleaning Up</h3>
           <p>
-            All objects that are saved to the DB are tracked. You can delete these in one go
+            You can remove all tracked objects in one go.
           </p>
 
 <pre>
@@ -315,25 +334,6 @@ echo $faker->uuid; // 7e57d004-2b97-0e7a-b45f-5387367791cd</code>
 
           <p style="font-size:20px">
             This will loop over all of the objects and call ->delete() on them.
-          </p>
-
-        </section>
-
-        <section id="tracked-objects">
-          <h3>Tracked Objects</h3>
-          <p>
-            You can view all tracked objects that have been saved to the DB
-          </p>
-
-<pre>
-<code>function tearDownAfterClass()
-{
-  $objects = FactoryMuffin::saved();
-}
-</code></pre>
-
-          <p style="font-size:20px">
-            This will return an array of all saved objects
           </p>
 
         </section>
