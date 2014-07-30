@@ -119,6 +119,7 @@
 <pre>
 <code>public static function setupBeforeClass()
 {
+  FactoryMuffin::setSaveMethod('save');
   FactoryMuffin::loadFactories(__DIR__ . '/factories');
 }</code></pre>
 
